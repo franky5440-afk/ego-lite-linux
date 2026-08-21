@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 # Linux install script for ego-browser
 # This script sets up ego-browser to work with Chrome/Chromium on Linux
+#
+# Requires bash (not POSIX sh) because of the array usage in find_chrome().
 
 set -eu
 
@@ -66,6 +68,29 @@ create_ego_browser_wrapper() {
 CHROME_PATH="${EGO_BROWSER_CHROME_PATH:-/usr/bin/google-chrome}"
 DEBUGGING_PORT="${EGO_BROWSER_DEBUGGING_PORT:-9222}"
 DEBUGGING_URL="http://127.0.0.1:$DEBUGGING_PORT"
+
+# Detect Chrome or Chromium (POSIX sh, mirrors install-linux.sh's find_chrome;
+# duplicated here because this wrapper runs as its own script and does not
+# inherit functions from the installer)
+find_chrome() {
+    for path in /usr/bin/google-chrome /usr/bin/google-chrome-stable \
+        /usr/bin/chromium /usr/bin/chromium-browser \
+        /snap/bin/chromium /usr/lib/chromium/chromium /opt/google/chrome/chrome; do
+        if [ -x "$path" ]; then
+            printf '%s\n' "$path"
+            return 0
+        fi
+    done
+
+    for cmd in google-chrome google-chrome-stable chromium chromium-browser; do
+        if command -v "$cmd" >/dev/null 2>&1; then
+            command -v "$cmd"
+            return 0
+        fi
+    done
+
+    return 1
+}
 
 # Check if Chrome is already running with remote debugging
 check_chrome_running() {

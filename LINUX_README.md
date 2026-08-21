@@ -1,5 +1,7 @@
 # ego-lite Linux Version
 
+> Unofficial, community-maintained Linux port of [citrolabs/ego-lite](https://github.com/citrolabs/ego-lite). Not affiliated with or endorsed by CitroLabs.
+
 This is a modified version of ego-lite that supports Linux systems.
 
 ## Overview

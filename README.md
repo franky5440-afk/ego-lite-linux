@@ -17,6 +17,9 @@
 
 </div>
 
+> [!NOTE]
+> **This is an unofficial, community-maintained fork** of [citrolabs/ego-lite](https://github.com/citrolabs/ego-lite), adding experimental Linux support. It is not affiliated with or endorsed by CitroLabs. The official project currently targets macOS only — for the official release, documentation, and support, please visit the [upstream repository](https://github.com/citrolabs/ego-lite). Issues specific to this Linux port belong here; anything else should be filed upstream.
+
 ego (lite) is a browser where you and your AI agents work in parallel. Your agents run multiple browser tasks in their own Spaces while your tabs stay yours, and tasks complete faster on fewer tokens.
 
 Existing tools like browser-use and agent-browser are browser automation frameworks: they need a separate browser to drive, logins never carry cleanly, and you and the agent end up fighting for the same tabs. ego lite is one browser designed from the start for the two of you to share. No extra setup, and the agent can always reach your real logins and tabs through `ego-browser`.
@@ -27,7 +30,7 @@ https://github.com/user-attachments/assets/ffe7954b-58ee-411e-b35d-ec30c58a08bc
 
 ## Quick Start
 
-ego lite runs on macOS today. Windows and Linux support are on the [roadmap](https://lite.ego.app/roadmap). A community-modified Linux version is available in this repository (see [LINUX_README.md](LINUX_README.md)).
+ego lite runs on macOS today; upstream Windows and Linux support are on the [roadmap](https://lite.ego.app/roadmap). This fork adds an unofficial Linux port in the meantime — see [LINUX_README.md](LINUX_README.md) for installation and usage.
 
 ### 1. Install
 
@@ -140,4 +143,4 @@ Tutorials, the full tool reference, and integration guides live at [lite.ego.app
 
 ## License
 
-The contents of this repository are released under the [MIT License](LICENSE). The ego lite browser is a separate, free download.
+The contents of this repository are released under the [MIT License](LICENSE), original copyright © CitroLabs. This fork's Linux-specific additions are released under the same license. The ego lite browser is a separate, free download.
