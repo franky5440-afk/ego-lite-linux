@@ -27,13 +27,15 @@ https://github.com/user-attachments/assets/ffe7954b-58ee-411e-b35d-ec30c58a08bc
 
 ## Quick Start
 
-ego lite runs on macOS today. Windows and Linux are on the [roadmap](https://lite.ego.app/roadmap).
+ego lite runs on macOS today. Windows and Linux support are on the [roadmap](https://lite.ego.app/roadmap). A community-modified Linux version is available in this repository (see [LINUX_README.md](LINUX_README.md)).
 
 ### 1. Install
 
 Pick whichever fits your flow.
 
 **1.1 Download the macOS app**
+
+*For Linux users, see [LINUX_README.md](LINUX_README.md) for alternative installation instructions.*
 
 <a href="https://cdn.ego.app/setup/macos/arm64/egolite-Y7MbxKIuhzFB.dmg"><img src="https://img.shields.io/badge/⬇%20Apple%20Silicon-.dmg-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download ego lite for Apple Silicon" /></a>
 <a href="https://cdn.ego.app/setup/macos/x64/egolite-Y7MbxKIuhzFB.dmg"><img src="https://img.shields.io/badge/⬇%20Intel-.dmg-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download ego lite for Intel" /></a>
