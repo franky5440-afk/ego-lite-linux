@@ -135,18 +135,18 @@ case "$1" in
             fi
             
             # Execute the Node.js script with browser connection
+            # Uses Node's built-in global WebSocket (stable since Node 22) instead of the
+            # 'ws' package, since this wrapper is copied to ~/.local/bin and runs detached
+            # from the repo's node_modules.
             exec node -e "
-const http = require('http');
-const WebSocket = require('ws');
-
 async function connectToBrowser() {
     const response = await fetch('$DEBUGGING_URL/json/version');
     const data = await response.json();
     const wsUrl = data.webSocketDebuggerUrl;
-    
+
     const ws = new WebSocket(wsUrl);
-    
-    ws.on('open', () => {
+
+    ws.onopen = () => {
         // Create globalThis.ego object
         globalThis.ego = {
             sendCDPMessage: (message) => {
@@ -175,12 +175,12 @@ async function connectToBrowser() {
             }
         };
         
-        ws.on('message', (message) => {
+        ws.onmessage = (event) => {
             if (globalThis.ego.onCDPMessage) {
-                globalThis.ego.onCDPMessage(message.toString());
+                globalThis.ego.onCDPMessage(String(event.data));
             }
-        });
-        
+        };
+
         // Execute the script from stdin
         let code = '';
         process.stdin.setEncoding('utf8');
@@ -197,12 +197,12 @@ async function connectToBrowser() {
             ws.close();
             process.exit(0);
         });
-    });
-    
-    ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
+    };
+
+    ws.onerror = (event) => {
+        console.error('WebSocket error:', event.message || event);
         process.exit(1);
-    });
+    };
 }
 
 connectToBrowser().catch(error => {
