@@ -20,12 +20,25 @@ jobs:
   star-history:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+
+      # star-history.com answers 501 "no star history" for a repo with no
+      # stars, and the action still renders an empty chart that differs from
+      # yesterday's only in the date tick. Skip the run until there is data.
+      - id: stars
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          count=$(gh api "repos/${GITHUB_REPOSITORY}" --jq .stargazers_count)
+          echo "Stargazers: ${count}"
+          echo "count=${count}" >> "$GITHUB_OUTPUT"
 
       # Pinned to the v1.0.5 commit; the renderer's package-lock.json makes the
       # npm install deterministic from there. commit is left to us because the
       # SVGs still need their font embedded before they are worth committing.
       - id: chart
+        if: steps.stars.outputs.count != '0'
         uses: narayann7/star-history-action@a68d8f9d67ca20d55b682a264e69152dcf326e9c
         with:
           repos: ${{ github.repository }}
@@ -56,5 +69,17 @@ jobs:
             exit 0
           fi
           git commit -m 'chore: update star history [skip ci]'
-          git pull --rebase origin "${GITHUB_REF_NAME}"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          # GitHub occasionally answers a push with a 500; retry with backoff
+          # instead of failing the whole run over a transient error.
+          for delay in 2 4 8 16 0; do
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            if [ "$delay" -eq 0 ]; then
+              echo "Push failed after 5 attempts." >&2
+              exit 1
+            fi
+            echo "Push failed; retrying in ${delay}s."
+            sleep "$delay"
+          done
