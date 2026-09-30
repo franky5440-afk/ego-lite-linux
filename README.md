@@ -134,9 +134,12 @@ Tutorials, the full tool reference, and integration guides live at [lite.ego.app
 
 <a href="https://github.com/citrolabs/ego-lite/stargazers">
 <!-- star-history:start -->
+<!-- Upstream's chart, published by citrolabs/ego-lite to its 'star-history'
+     branch. This fork's token cannot read upstream's stargazers, so it embeds
+     that chart instead of rendering its own. -->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/star-history/star-history-dark.svg">
-  <img alt="Star history" src="assets/star-history/star-history-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/citrolabs/ego-lite/star-history/star-history-dark.svg">
+  <img alt="Star history" src="https://raw.githubusercontent.com/citrolabs/ego-lite/star-history/star-history-light.svg">
 </picture>
 <!-- star-history:end -->
 </a>
